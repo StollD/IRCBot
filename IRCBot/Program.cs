@@ -39,7 +39,17 @@ namespace IRCBot
         public static void Main(string[] args)
         {
             Instance = new IRCBot();
-            while (true) Thread.Sleep(1000);
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "exit")
+                    Environment.Exit(0);
+                else
+                {
+                    string[] arr = input.Remove(0, 1).Split(':');
+                    BaseUtils.SendMessage(arr[1], new[] { arr[0] });
+                }
+            }
         }
 
         // Start the bot
