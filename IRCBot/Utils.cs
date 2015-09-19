@@ -62,7 +62,10 @@ namespace IRCBot
         }
 
         // Is-Comarison
-        public static bool Is(string text, string cmd) => text.StartsWith(cmd);
+        public static bool Is(string text, string cmd)
+		{
+			return text.StartsWith(cmd);
+		}
 
         // Random
         public static Random random;

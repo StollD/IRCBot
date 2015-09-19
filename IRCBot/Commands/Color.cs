@@ -107,8 +107,11 @@ namespace IRCBot
             }
         }
 
-        private static float[] HexToUnity(string hexString) => new float[] { Convert.ToInt32(hexString.Substring(1, 2), 16) / 255f, Convert.ToInt32(hexString.Substring(3, 2), 16) / 255f, Convert.ToInt32(hexString.Substring(5, 2), 16) / 255f, 1f };
-
+        private static float[] HexToUnity(string hexString)
+		{
+			return new float[] { Convert.ToInt32(hexString.Substring(1, 2), 16) / 255f, Convert.ToInt32(hexString.Substring(3, 2), 16) / 255f, Convert.ToInt32(hexString.Substring(5, 2), 16) / 255f, 1f };
+		}
+			
         private static string ToHex(float[] c)
         {
             int num = (int)(c[0] * 255f);

@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,12 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChatSharp">
-      <HintPath>..\..\..\..\..\Code\C#\ChatSharp-1.0.0-rc1\ChatSharp-1.0.0-rc1\ChatSharp\bin\Release\ChatSharp.dll</HintPath>
+      <HintPath>../References/ChatSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Code\C#\Newtonsoft.Json.dll</HintPath>
+      <HintPath>../References/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
+    <Compile Include="Commands\About.cs" />
     <Compile Include="Commands\Smile.cs" />
     <Compile Include="Commands\Save.cs" />
     <Compile Include="Commands\Seen.cs" />
