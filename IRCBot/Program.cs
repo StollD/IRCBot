@@ -42,7 +42,7 @@ namespace IRCBot
             while (true)
             {
                 string input = Console.ReadLine();
-                if (input == "exit")
+                if (input == "stop")
                     Environment.Exit(0);
                 else
                 {
