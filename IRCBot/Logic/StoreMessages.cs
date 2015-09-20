@@ -8,14 +8,14 @@ namespace IRCBot
     public partial class Logic
     {
         // Strip Chars
-        private static readonly string[] stripChars = { ":", ",", ".", "?", "!", "§", "$", "%", "&", "/", "(", ")", "=", "´", "`", "*", "+", "~", "#", "'", "-", "_", "<", ">", "|", "²", "³", "{", "[", "]", "}", @"\", "^", "°" };
+        private static string[] stripChars = { " ", ":", ",", ".", "?", "!", "§", "$", "%", "&", "/", "(", ")", "=", "´", "`", "*", "+", "~", "#", "'", "-", "_", "<", ">", "|", "²", "³", "{", "[", "]", "}", @"\", "^", "°" };
 
         // Save all the messages
         public static void StoreMessages()
         {
             try
             {
-                IRCBot.words.messages.AddRange((message.Message.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Where(s => !Is(s, "http") && !Is(s, "https")).ForEach(s => Utils.Remove(s, stripChars))));
+                IRCBot.words.messages.AddRange(message.Message.Split(stripChars, StringSplitOptions.RemoveEmptyEntries).Where(s => !Is(s, "http") && !Is(s, "https")));
                 Utils.Save(words);
             }
             catch { }
