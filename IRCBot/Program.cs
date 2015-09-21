@@ -1,6 +1,7 @@
 ﻿using ChatSharp;
 using ChatSharp.Events;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +35,7 @@ namespace IRCBot
         public static Settings settings;
         public static Words words;
         public static Seen_Tell seenTell;
+        public static Alias alias;
 
         // Create the Bot
         public static void Main(string[] args)
@@ -56,22 +58,28 @@ namespace IRCBot
         public IRCBot()
         {
             // Load the settings
-            if (File.Exists(Directory.GetCurrentDirectory() + "/settings.json"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/Settings/settings.json"))
                 settings = Utils.Load<Settings>();
             else
                 Utils.Save(ref settings);
 
             // Load the words
-            if (File.Exists(Directory.GetCurrentDirectory() + "/words.json"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/Settings/words.json"))
                 words = Utils.Load<Words>();
             else
                 Utils.Save(ref words);
 
             // Load the seen_tells'
-            if (File.Exists(Directory.GetCurrentDirectory() + "/seen_tell.json"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/Settings/seen_tell.json"))
                 seenTell = Utils.Load<Seen_Tell>();
             else
                 Utils.Save(ref seenTell);
+
+            // Load the aliase
+            if (File.Exists(Directory.GetCurrentDirectory() + "/Settings/alias.json"))
+                alias = Utils.Load<Alias>();
+            else
+                Utils.Save(ref alias);
 
             // Create the randomizer
             BaseUtils.random = new Random();
@@ -88,6 +96,7 @@ namespace IRCBot
             };
             client.ChannelMessageRecieved += Client_ChannelMessageRecieved;
             client.UserKicked += Client_UserKicked;
+            client.NickChanged += Client_NickChanged;
             client.ConnectAsync();
             AppDomain.CurrentDomain.ProcessExit += (s, e) =>
             {
@@ -98,6 +107,41 @@ namespace IRCBot
 
             // Stop GC
             GC.KeepAlive(this);
+        }
+
+        private void Client_NickChanged(object sender, NickChangedEventArgs e)
+        {
+            BaseUtils.Log(e.OldNick + " - " + e.NewNick);
+            if (alias.alias.ContainsKey(e.OldNick))
+            {
+                if (!alias.alias[e.OldNick].Contains(e.NewNick))
+                    alias.alias[e.OldNick].Add(e.NewNick);
+            }
+            else
+            {
+                foreach (KeyValuePair<string, List<string>> kvP in alias.alias)
+                {
+                    if (kvP.Value.Contains(e.OldNick))
+                    {
+                        if (kvP.Key == e.NewNick)
+                            continue;
+                        else if (kvP.Value.Contains(e.NewNick))
+                            continue;
+                        else
+                            alias.alias[kvP.Key].Add(e.NewNick);
+                        break;
+                    }
+                    else
+                    {
+                        alias.alias.Add(e.OldNick, new List<string>() { e.NewNick });
+                        break;
+                    }
+                }
+                if (alias.alias.Count == 0)
+                    alias.alias.Add(e.OldNick, new List<string>() { e.NewNick });
+
+            }
+            Utils.Save(alias);
         }
 
         private void Client_UserKicked(object sender, KickEventArgs e)

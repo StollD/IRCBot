@@ -33,6 +33,13 @@ namespace IRCBot
             set { IRCBot.seenTell = value; }
         }
 
+        // Fetch the alialses
+        protected static Alias alias
+        {
+            get { return IRCBot.alias; }
+            set { IRCBot.alias = value; }
+        }
+
         // Fetch the channel
         protected static IrcChannel channel
         {
@@ -159,7 +166,7 @@ namespace IRCBot
         // Load the settings
         public static T Load<T>() where T : new()
         {
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(Directory.GetCurrentDirectory() + "/" + typeof(T).Name.ToLower() + ".json"),
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(Directory.GetCurrentDirectory() + "/Settings/" + typeof(T).Name.ToLower() + ".json"),
                 new JsonSerializerSettings()
                 {
                     Formatting = Formatting.Indented,
@@ -175,7 +182,7 @@ namespace IRCBot
         public static void Save<T>(T data) where T : new()
         {
             File.WriteAllText(
-                Directory.GetCurrentDirectory() + "/" + typeof(T).Name.ToLower() + ".json",
+                Directory.GetCurrentDirectory() + "/Settings/" + typeof(T).Name.ToLower() + ".json",
                 JsonConvert.SerializeObject(data, typeof(T), new JsonSerializerSettings()
                 {
                     Formatting = Formatting.Indented,

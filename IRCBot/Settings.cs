@@ -12,7 +12,7 @@ namespace IRCBot
         public string startChar = "$";
         public int maxRoll = 100;
         public int chanProbability = 10;
-        public List<string> channels = new List<string>() { "#qboid" };
+        public List<string> channels = new List<string>();
         public List<string> admins = new List<string>();
         public List<string> tea = new List<string>();
         public List<string> egg = new List<string>();
@@ -32,5 +32,10 @@ namespace IRCBot
     {
         public Dictionary<string, List<object>> seen = new Dictionary<string, List<object>>();
         public Dictionary<string, List<List<object>>> tell = new Dictionary<string, List<List<object>>>();
+    }
+
+    public class Alias
+    {
+        public Dictionary<string, List<string>> alias = new Dictionary<string, List<string>>();
     }
 }

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Commands\About.cs" />
+    <Compile Include="Commands\Alias.cs" />
     <Compile Include="Commands\Smile.cs" />
     <Compile Include="Commands\Save.cs" />
     <Compile Include="Commands\Seen.cs" />
