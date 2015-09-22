@@ -136,7 +136,7 @@ namespace IRCBot
                 }
 
                 // If the value contains the old nick
-                if (kvP.Value.Contains(e.OldNick) & kvP.Key != e.NewNick && !kvP.Value.Contains(e.NewNick))
+                if (kvP.Value.Contains(e.OldNick) && kvP.Key != e.NewNick && !kvP.Value.Contains(e.NewNick))
                 {
                     alias.alias[kvP.Key].Add(e.NewNick);
                     found = true;
@@ -144,7 +144,7 @@ namespace IRCBot
                 }
 
                 // If the value contains the new nick
-                if (kvP.Value.Contains(e.NewNick) & kvP.Key != e.OldNick && !kvP.Value.Contains(e.OldNick))
+                if (kvP.Value.Contains(e.NewNick) && kvP.Key != e.OldNick && !kvP.Value.Contains(e.OldNick))
                 {
                     alias.alias[kvP.Key].Add(e.OldNick);
                     found = true;
