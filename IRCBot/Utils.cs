@@ -82,23 +82,31 @@ namespace IRCBot
         public static void Log(object o)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + o);
-            Writer().WriteLineF("[" + DateTime.Now.ToLongTimeString() + "] " + o);
+            Console.WriteLine("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
+            Writer().WriteLineF("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
         }
 
         public static void LogSpecial(object o)
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + o);
-            Writer().WriteLineF("[" + DateTime.Now.ToLongTimeString() + "] " + o);
+            Console.WriteLine("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
+            Writer().WriteLineF("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static void LogQboid(object o)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
+            Writer().WriteLineF("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public static void LogAdmin(object o)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + o);
-            Writer().WriteLineF("[" + DateTime.Now.ToLongTimeString() + "] " + o);
+            Console.WriteLine("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
+            Writer().WriteLineF("[" + DateTime.UtcNow.ToLongTimeString() + "] " + o);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
@@ -106,11 +114,21 @@ namespace IRCBot
         public static void SendMessage(string msg, [Optional] string[] targets)
         {
             if (targets == null)
+            {
                 foreach (string s in Split(msg, 460))
+                {
                     channel.SendMessage(s);
+                    LogQboid(s);
+                }
+            }
             else if (targets != null)
+            {
                 foreach (string s in Split(msg, 460))
+                {
                     client.SendMessage(s, targets);
+                    LogQboid(s);
+                }
+            }
         }
 
         private static string[] Split(string s, int length)
@@ -132,7 +150,7 @@ namespace IRCBot
             if (_writer == null)
             {
                 _writer = new StreamWriter(Directory.GetCurrentDirectory() + "/log.txt", false);
-                _writer.WriteLineF("[Start] ============ " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " ============");
+                _writer.WriteLineF("[Start] ============ " + DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString() + " ============");
             }
             return _writer;
         }
@@ -199,6 +217,16 @@ namespace IRCBot
             if (data == null)
                 data = new T();
             Save(data);
+        }
+
+        // Parse Datetime
+        public static DateTime ParseTime(string time)
+        {
+            int[] date = new[] { 1, 1, 1, 0, 0, 0 };
+            string[] split = time.Split('-');
+            for (int i = 0; i < split.Length; i++)
+                date[i] = Int32.Parse(split[i]);
+            return new DateTime(date[0], date[1], date[2], date[3], date[4], date[5]);
         }
     }
 }

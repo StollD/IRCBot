@@ -101,7 +101,7 @@ namespace IRCBot
             AppDomain.CurrentDomain.ProcessExit += (s, e) =>
             {
                 client.Quit();
-                BaseUtils.Writer().WriteLine("[Start] ============ " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " ============");
+                BaseUtils.Writer().WriteLine("[Stop] ============ " + DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString() + " ============");
                 BaseUtils.Writer().Close();
             };
 
@@ -109,38 +109,59 @@ namespace IRCBot
             GC.KeepAlive(this);
         }
 
+        // Track all nick changes
         private void Client_NickChanged(object sender, NickChangedEventArgs e)
         {
+            // Log
             BaseUtils.Log(e.OldNick + " - " + e.NewNick);
-            if (alias.alias.ContainsKey(e.OldNick))
-            {
-                if (!alias.alias[e.OldNick].Contains(e.NewNick))
-                    alias.alias[e.OldNick].Add(e.NewNick);
-            }
-            else
-            {
-                foreach (KeyValuePair<string, List<string>> kvP in alias.alias)
-                {
-                    if (kvP.Value.Contains(e.OldNick))
-                    {
-                        if (kvP.Key == e.NewNick)
-                            continue;
-                        else if (kvP.Value.Contains(e.NewNick))
-                            continue;
-                        else
-                            alias.alias[kvP.Key].Add(e.NewNick);
-                        break;
-                    }
-                    else
-                    {
-                        alias.alias.Add(e.OldNick, new List<string>() { e.NewNick });
-                        break;
-                    }
-                }
-                if (alias.alias.Count == 0)
-                    alias.alias.Add(e.OldNick, new List<string>() { e.NewNick });
 
+            // Loop through everything and check if it's there
+            bool found = false;
+            foreach (KeyValuePair<string, List<string>> kvP in alias.alias)
+            {
+                // If the key is the old nick
+                if (kvP.Key == e.OldNick)
+                {
+                    if (!kvP.Value.Contains(e.NewNick)) alias.alias[e.OldNick].Add(e.NewNick);
+                    found = true;
+                    break;
+                }
+
+                // If the key is the new nick
+                if (kvP.Key == e.NewNick)
+                {
+                    if (!kvP.Value.Contains(e.OldNick)) alias.alias[e.NewNick].Add(e.OldNick);
+                    found = true;
+                    break;
+                }
+
+                // If the value contains the old nick
+                if (kvP.Value.Contains(e.OldNick) & kvP.Key != e.NewNick && !kvP.Value.Contains(e.NewNick))
+                {
+                    alias.alias[kvP.Key].Add(e.NewNick);
+                    found = true;
+                    break;
+                }
+
+                // If the value contains the new nick
+                if (kvP.Value.Contains(e.NewNick) & kvP.Key != e.OldNick && !kvP.Value.Contains(e.OldNick))
+                {
+                    alias.alias[kvP.Key].Add(e.OldNick);
+                    found = true;
+                    break;
+                }
+                
+                // Else
+                if (kvP.Value.Contains(e.NewNick) && kvP.Value.Contains(e.OldNick))
+                {
+                    found = true;
+                }
             }
+
+            // If there was nothing, create a new entry
+            if (!found) alias.alias.Add(e.OldNick, new List<string>() { e.NewNick });
+
+            // Save
             Utils.Save(alias);
         }
 
@@ -148,7 +169,7 @@ namespace IRCBot
         {
             if (e.Kicked.Nick != settings.name)
                 return;
-
+            
             BaseUtils.LogSpecial(e.Kicker.Nick + " kicked me from " + e.Channel.Name + "! Reason: " + e.Reason);
             client.PartChannel(e.Channel.Name);
             settings.channels.Remove(e.Channel.Name);
@@ -182,7 +203,7 @@ namespace IRCBot
                     string msg = e.PrivateMessage.Message.Trim();
 
                     // If it should be a command
-                    if (e.PrivateMessage.IsChannelMessage && msg.StartsWith(settings.startChar))
+                    if (msg.StartsWith(settings.startChar))
                     {
                         // Mute
                         if (settings.muted.Contains(channel.Name) && !BaseUtils.Is(msg, settings.startChar + "unmute"))

@@ -66,7 +66,7 @@ namespace IRCBot
                     }
                     else
                     {
-                        settings.memos[channelname].Add(ident, "\x02" + message.User.Nick + "\x02 said on \x02[" + DateTime.Now.ToString() + "]\x02 in \x02" + channelname + "\x02: " + text);
+                        settings.memos[channelname].Add(ident, "\x02" + message.User.Nick + "\x02 said on \x02[" + DateTime.UtcNow.ToString() + "]\x02 in \x02" + channelname + "\x02: " + text);
                         Utils.Save(settings);
                         SendMessage(message.User.Nick + ": I added this memo to my dictionary.");
                     }
@@ -114,7 +114,7 @@ namespace IRCBot
                     }
                     else
                     {
-                        settings.memos[channelname][ident] = "\x02" + message.User.Nick + "\x02 said on \x02[" + DateTime.Now.ToString() + "]\x02 in \x02" + channelname + "\x02: " + text;
+                        settings.memos[channelname][ident] = "\x02" + message.User.Nick + "\x02 said on \x02[" + DateTime.UtcNow.ToString() + "]\x02 in \x02" + channelname + "\x02: " + text;
                         Utils.Save(settings);
                         SendMessage(message.User.Nick + ": I updated this memo.");
                     }

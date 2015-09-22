@@ -16,7 +16,7 @@ namespace BotBackup
             while (true)
             {
                 // Copy the files
-                string path = Directory.GetCurrentDirectory() + "/Backups/" + DateTime.Now.ToString("yyyy-MM-dd");
+                string path = Directory.GetCurrentDirectory() + "/Backups/" + DateTime.UtcNow.ToString("yyyy-MM-dd");
                 Directory.CreateDirectory(path);
                 foreach (string file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json"))
                     File.Copy(file, path + "/" + Path.GetFileName(file));

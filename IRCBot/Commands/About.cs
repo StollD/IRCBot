@@ -5,7 +5,7 @@ namespace IRCBot
     // Class to store Commands
     public partial class Commands
     {
-        public static int[] version = new[] { 0, 0, 0, 1 }; 
+        public static int[] version = new[] { 0, 0, 0, 2 }; 
 
         // Infos about the bot
         [Command("about")]

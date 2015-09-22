@@ -18,7 +18,7 @@ namespace IRCBot
             seenTell.seen[message.User.Nick] = new List<object>
             {
                 channel.Name,
-                DateTime.Now,
+                DateTime.UtcNow,
                 message.Message
             };
             Utils.Save(seenTell);
