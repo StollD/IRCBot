@@ -33,12 +33,14 @@ namespace IRCBot
             set { IRCBot.seenTell = value; }
         }
 
+        /*
         // Fetch the alialses
         protected static Alias alias
         {
             get { return IRCBot.alias; }
             set { IRCBot.alias = value; }
         }
+        */
 
         // Fetch the channel
         protected static IrcChannel channel

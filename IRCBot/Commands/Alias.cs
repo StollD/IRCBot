@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 
 namespace IRCBot
 {
@@ -39,4 +39,4 @@ namespace IRCBot
                 SendMessage(message.User.Nick + ": I have the following aliases stored for \x02" + uname + "\x02: " + string.Join(", ", aliases));
         }
     }
-}
+}*/

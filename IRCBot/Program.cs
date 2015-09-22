@@ -35,7 +35,7 @@ namespace IRCBot
         public static Settings settings;
         public static Words words;
         public static Seen_Tell seenTell;
-        public static Alias alias;
+        // public static Alias alias;
 
         // Create the Bot
         public static void Main(string[] args)
@@ -75,11 +75,13 @@ namespace IRCBot
             else
                 Utils.Save(ref seenTell);
 
+            /*
             // Load the aliase
             if (File.Exists(Directory.GetCurrentDirectory() + "/Settings/alias.json"))
                 alias = Utils.Load<Alias>();
             else
                 Utils.Save(ref alias);
+            */
 
             // Create the randomizer
             BaseUtils.random = new Random();
@@ -96,7 +98,7 @@ namespace IRCBot
             };
             client.ChannelMessageRecieved += Client_ChannelMessageRecieved;
             client.UserKicked += Client_UserKicked;
-            client.NickChanged += Client_NickChanged;
+            //client.NickChanged += Client_NickChanged;
             client.ConnectAsync();
             AppDomain.CurrentDomain.ProcessExit += (s, e) =>
             {
@@ -109,6 +111,7 @@ namespace IRCBot
             GC.KeepAlive(this);
         }
 
+        /*
         // Track all nick changes
         private void Client_NickChanged(object sender, NickChangedEventArgs e)
         {
@@ -164,6 +167,7 @@ namespace IRCBot
             // Save
             Utils.Save(alias);
         }
+        */
 
         private void Client_UserKicked(object sender, KickEventArgs e)
         {

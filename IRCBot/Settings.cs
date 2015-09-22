@@ -34,8 +34,8 @@ namespace IRCBot
         public Dictionary<string, List<List<object>>> tell = new Dictionary<string, List<List<object>>>();
     }
 
-    public class Alias
+    /*public class Alias
     {
         public Dictionary<string, List<string>> alias = new Dictionary<string, List<string>>();
-    }
+    }*/
 }
