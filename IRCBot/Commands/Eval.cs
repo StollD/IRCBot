@@ -124,6 +124,7 @@ public class IRCBotEval
                     CompilerResults result = csharp.CompileAssemblyFromSource(param, classCode.Replace("<###0###>", eval).Replace("<###1###>", ""));
 
                     // Execute it
+                    foreach (var s in result.Errors) Log(s);
                     MethodInfo calc = result.CompiledAssembly.GetType("IRCBotEval").GetMethod("Eval");
                     SendMessage(message.User.Nick + ": " + calc.Invoke(Activator.CreateInstance(calc.DeclaringType), null));
                 }
