@@ -38,9 +38,9 @@ using System.Text.RegularExpressions;
 
 public class IRCBotEval
 {
-    public static object Eval()
+    public object Eval()
     {
-        return new IRCBotEval().<###0###>;
+        return <###0###>;
     }
 
 <###1###>
