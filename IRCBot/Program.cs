@@ -246,10 +246,7 @@ namespace IRCBot
                             }
                         }
                     }
-                    else
-                    {
-                        Logic.Run();
-                    }
+                    Logic.Run();
                 });
             }
             catch { }

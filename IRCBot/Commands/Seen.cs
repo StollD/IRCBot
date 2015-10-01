@@ -14,6 +14,9 @@ namespace IRCBot
             // Get the name
             string name = Utils.Remove(msg, "seen", true);
 
+            // Sort by date
+            KeyValuePair<string, List<object>> lastUser = new KeyValuePair<string, List<object>>();
+
             // Check the lists
             foreach (var user in seenTell.seen)
             {
@@ -21,14 +24,25 @@ namespace IRCBot
                 if (!Regex.IsMatch(user.Key, wildcard))
                     continue;
 
+                // Null check
+                if (lastUser.Value == null)
+                    lastUser = user;
+
+                // Sort by date
+                if (((DateTime)user.Value[1]) > ((DateTime)lastUser.Value[1]))
+                    lastUser = user;
+            }
+
+            if (lastUser.Value != null)
+            { 
                 // Return the answer
-                string channelName = user.Value[0] as string;
-                DateTime time = (DateTime)user.Value[1];
-                string mess = user.Value[2] as string;
+                string channelName = lastUser.Value[0] as string;
+                DateTime time = (DateTime)lastUser.Value[1];
+                string mess = lastUser.Value[2] as string;
                 SendMessage(
                     message.User.Nick + 
-                    ": I last saw \x02\u000312" + 
-                    user.Key + "\u0003\x02 on \x02\u000306[" + 
+                    ": I last saw \x02\u000312" +
+                    lastUser.Key + "\u0003\x02 on \x02\u000306[" + 
                     time.ToString("dd.MM.yyyy HH:mm:ss") + 
                     "]\u0003\x02 in \x02\u000307" + 
                     channelName +
