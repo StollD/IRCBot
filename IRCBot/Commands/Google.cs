@@ -9,11 +9,11 @@ namespace IRCBot
     public partial class Commands
     {
         // Action Command
-        [MultipleCommand("g", "google")]
+        [MultipleCommand("google", "g")]
         public static void Google(string msg, bool state)
         {
             // Get the googleing
-            string google = Utils.Remove(msg, state ? "g" : "google", true);
+            string google = Utils.Remove(msg, state ? "google" : "g", true);
 
             // Google
             WebQuery query = new WebQuery(google);
