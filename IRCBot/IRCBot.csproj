@@ -39,6 +39,9 @@
     <Reference Include="ChatSharp">
       <HintPath>../References/ChatSharp.dll</HintPath>
     </Reference>
+    <Reference Include="GoogleSearchDotnet">
+      <HintPath>../References/GoogleSearchDotnet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -52,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Commands.cs" />
     <Compile Include="Commands\About.cs" />
+    <Compile Include="Commands\Google.cs" />
     <Compile Include="Commands\Alias.cs" />
     <Compile Include="Commands\Smile.cs" />
     <Compile Include="Commands\Save.cs" />
