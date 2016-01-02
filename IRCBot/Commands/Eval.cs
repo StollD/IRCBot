@@ -121,7 +121,7 @@ public class IRCBotEval
 
                     // Configure it
                     CompilerParameters param = new CompilerParameters(new[] { "System.dll" });
-                    CompilerResults result = csharp.CompileAssemblyFromSource(param, classCode.Replace("<###0###>", eval).Replace("<###1###>", ""));
+                    CompilerResults result = csharp.CompileAssemblyFromSource(param, classCode.Replace("<###0###>", eval).Replace("<###1###>", "").Replace("System.IO", "").Replace("System.Xml", ""));
 
                     // Execute it
                     foreach (var s in result.Errors) Log(s);
